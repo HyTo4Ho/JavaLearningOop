@@ -1,4 +1,4 @@
-package Code;
+package ru.academits.java.suslov.range;
 
 public class Range {
     private static final double EPSILON = 1e-10;

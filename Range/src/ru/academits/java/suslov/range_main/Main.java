@@ -1,6 +1,6 @@
-package Main;
+package ru.academits.java.suslov.range_main;
 
-import Code.Range;
+import ru.academits.java.suslov.range.Range;
 import java.util.Scanner;
 
 public class Main {
