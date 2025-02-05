@@ -8,11 +8,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Введите два числа по маске \"x y\":");
-        String input = scanner.nextLine();
+        String pointsInputString = scanner.nextLine();
 
-        String[] dots = input.split(" ");
+        String[] points = pointsInputString.split(" ");
 
-        Range range = new Range(Double.parseDouble(dots[0]), Double.parseDouble(dots[1]));
+        Range range = new Range(Double.parseDouble(points[0]), Double.parseDouble(points[1]));
 
         if (range.isInside(0)) {
             System.out.printf("Длина диапазона: %.2f", range.getLength());
