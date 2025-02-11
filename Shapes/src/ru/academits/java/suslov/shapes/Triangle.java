@@ -1,57 +1,136 @@
 package ru.academits.java.suslov.shapes;
 
 public class Triangle implements Shape {
-    private double side12;
-    private double side23;
-    private double side31;
+    private static final double EPSILON = 1e-10;
 
-    public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+    private double aPointX;
 
+    private double aPointY;
+
+    private double bPointX;
+
+    private double bPointY;
+
+    private double cPointX;
+
+    private double cPointY;
+
+    private double aBLength;
+
+    private double bCLength;
+
+    private double cALength;
+
+    public Triangle(double aPointX, double aPointY, double bPointX, double bPointY, double cPointX, double cPointY) {
+        this.aPointX = aPointX;
+        this.aPointY = aPointY;
+        this.bPointX = bPointX;
+        this.bPointY = bPointY;
+        this.cPointX = cPointX;
+        this.cPointY = cPointY;
+
+        this.aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
+        this.bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
+        this.cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
-    public double getSide12() {
-        return side12;
+    public double getAPointX() {
+        return aPointX;
     }
 
-    public void setSide12(double side12) {
-        this.side12 = side12;
+    public void setAPointX(double aPointX) {
+        this.aPointX = aPointX;
+
+        this.aBLength = Math.sqrt(Math.pow(this.bPointX - aPointX, 2) + Math.pow(this.bPointY - this.aPointY, 2));
+        this.cALength = Math.sqrt(Math.pow(aPointX - this.cPointX, 2) + Math.pow(this.aPointY - this.cPointY, 2));
     }
 
-    public double getSide23() {
-        return side23;
+    public double getAPointY() {
+        return aPointY;
     }
 
-    public void setSide23(double side23) {
-        this.side23 = side23;
+    public void setAPointY(double aPointY) {
+        this.aPointY = aPointY;
+
+        this.aBLength = Math.sqrt(Math.pow(this.bPointX - this.aPointX, 2) + Math.pow(this.bPointY - aPointY, 2));
+        this.cALength = Math.sqrt(Math.pow(this.aPointX - this.cPointX, 2) + Math.pow(aPointY - this.cPointY, 2));
     }
 
-    public double getSide31() {
-        return side31;
+    public double getBPointX() {
+        return bPointX;
     }
 
-    public void setSide31(double side31) {
-        this.side31 = side31;
+    public void setBPointX(double bPointX) {
+        this.bPointX = bPointX;
+
+        this.aBLength = Math.sqrt(Math.pow(bPointX - this.aPointX, 2) + Math.pow(this.bPointY - this.aPointY, 2));
+        this.bCLength = Math.sqrt(Math.pow(this.cPointX - bPointX, 2) + Math.pow(this.cPointY - this.bPointY, 2));
+    }
+
+    public double getBPointY() {
+        return bPointY;
+    }
+
+    public void setBPointY(double bPointY) {
+        this.bPointY = bPointY;
+
+        this.aBLength = Math.sqrt(Math.pow(this.bPointX - this.aPointX, 2) + Math.pow(bPointY - this.aPointY, 2));
+        this.bCLength = Math.sqrt(Math.pow(this.cPointX - this.bPointX, 2) + Math.pow(this.cPointY - bPointY, 2));
+    }
+
+    public double getCPointX() {
+        return cPointX;
+    }
+
+    public void setCPointX(double cPointX) {
+        this.cPointX = cPointX;
+
+        this.bCLength = Math.sqrt(Math.pow(cPointX - this.bPointX, 2) + Math.pow(this.cPointY - this.bPointY, 2));
+        this.cALength = Math.sqrt(Math.pow(this.aPointX - cPointX, 2) + Math.pow(this.aPointY - this.cPointY, 2));
+    }
+
+    public double getCPointY() {
+        return cPointY;
+    }
+
+    public void setCPointY(double cPointY) {
+        this.cPointY = cPointY;
+
+        this.bCLength = Math.sqrt(Math.pow(this.cPointX - this.bPointX, 2) + Math.pow(cPointY - this.bPointY, 2));
+        this.cALength = Math.sqrt(Math.pow(this.aPointX - this.cPointX, 2) + Math.pow(this.aPointY - cPointY, 2));
+    }
+
+    public double getABLength() {
+        return aBLength;
+    }
+
+    public double getBCLength() {
+        return bCLength;
+    }
+
+    public double getCALength() {
+        return cALength;
     }
 
     @Override
     public double getWidth() {
-        return 0;
-        //      В качестве ширины возвращать max(x1, x2, x3) – min(x1, x2, x3)
+        return Math.max(Math.max(this.getAPointX(), this.getBPointX()), this.getCPointX()) - Math.min(Math.min(this.getAPointX(), this.getBPointX()), this.getCPointX());
     }
 
     @Override
     public double getHeight() {
-        return 0;
-        //      В качестве высоты возвращать max(y1, y2, y3) – min(y1, y2, y3)
+        return Math.max(Math.max(this.getAPointY(), this.getBPointY()), this.getCPointY()) - Math.min(Math.min(this.getAPointY(), this.getBPointY()), this.getCPointY());
     }
 
     @Override
     public double getArea() {
-        return 0;
+        double semiPerimeter = this.getPerimeter() / 2;
+
+        return Math.sqrt(semiPerimeter * (semiPerimeter - this.aBLength) * (semiPerimeter - this.bCLength) * (semiPerimeter - this.cALength));
     }
 
     @Override
     public double getPerimeter() {
-        return 0;
+        return this.aBLength + this.bCLength + this.cALength;
     }
 }
