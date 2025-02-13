@@ -51,42 +51,43 @@ public class Range {
      * Получение интервала-пересечения двух интервалов
      * Если не пересекаются вернется null
      */
-    public Range getJoinRange(Range second) {
+    public Range getIntersection(Range range) {
         // Пересечений нет - вернем нул
-        if (!this.isInside(second.getFrom()) && !this.isInside(second.getTo())) {
+        if (from < range.to || range.from < to) {
             return null;
         }
 
-        return new Range(Math.max(this.getFrom(), second.getFrom()), Math.min(this.getTo(), second.getTo()));
+        return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
     /**
      * Получение объединения двух интервалов
      * Если не пересекаются вернется два исходных интервала
      */
-    public Range[] getMergeRange(Range second) {
+    public Range[] getMerge(Range range) {
         // Пересечений нет - вернем оба
-        if (!this.isInside(second.getFrom()) && !this.isInside(second.getTo())) {
-            return new Range[]{this, second};
+        if (from < range.to || range.from < to) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
-        return new Range[]{new Range(Math.min(this.getFrom(), second.getFrom()), Math.max(this.getTo(), second.getTo()))};
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
     /**
      * Получение разности двух интервалов (из первого интервала вычитаем второй)
      * Если не пересекаются вернется пустой массив
      */
-    public Range[] getSubtractionRange(Range second) {
+    public Range[] getDifference(Range range) {
         // Пересечений нет - вернем исходный интервал
-        if (!this.isInside(second.getFrom()) && !this.isInside(second.getTo())) {
-            return new Range[]{this};
-        }
-        // Второй интервал полностью лежит в первом - тогда будет два куска
-        if (this.isInside(second.getFrom()) && this.isInside(second.getTo())) {
-            return new Range[]{new Range(this.getFrom(), second.getFrom()), new Range(second.getTo(), this.getTo())};
+        if (from < range.to || range.from < to) {
+            return new Range[]{new Range(from, to)};
         }
 
-        return new Range[]{new Range(Math.min(this.getFrom(), second.getFrom()), Math.max(this.getFrom(), second.getFrom()))};
+        // Второй интервал полностью лежит в первом - тогда будет два куска
+        if (range.from >= from && range.to <= to) {
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+        }
+
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(from, range.from))};
     }
 }
