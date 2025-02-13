@@ -1,24 +1,14 @@
 package ru.academits.java.suslov.shapes;
 
 public class Triangle implements Shape {
-    private static final double EPSILON = 1e-10;
-
     private double aPointX;
-
     private double aPointY;
-
     private double bPointX;
-
     private double bPointY;
-
     private double cPointX;
-
     private double cPointY;
-
     private double aBLength;
-
     private double bCLength;
-
     private double cALength;
 
     public Triangle(double aPointX, double aPointY, double bPointX, double bPointY, double cPointX, double cPointY) {
@@ -29,9 +19,9 @@ public class Triangle implements Shape {
         this.cPointX = cPointX;
         this.cPointY = cPointY;
 
-        this.aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
-        this.bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
-        this.cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
+        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
+        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
+        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getAPointX() {
@@ -41,8 +31,8 @@ public class Triangle implements Shape {
     public void setAPointX(double aPointX) {
         this.aPointX = aPointX;
 
-        this.aBLength = Math.sqrt(Math.pow(this.bPointX - aPointX, 2) + Math.pow(this.bPointY - this.aPointY, 2));
-        this.cALength = Math.sqrt(Math.pow(aPointX - this.cPointX, 2) + Math.pow(this.aPointY - this.cPointY, 2));
+        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
+        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getAPointY() {
@@ -52,8 +42,8 @@ public class Triangle implements Shape {
     public void setAPointY(double aPointY) {
         this.aPointY = aPointY;
 
-        this.aBLength = Math.sqrt(Math.pow(this.bPointX - this.aPointX, 2) + Math.pow(this.bPointY - aPointY, 2));
-        this.cALength = Math.sqrt(Math.pow(this.aPointX - this.cPointX, 2) + Math.pow(aPointY - this.cPointY, 2));
+        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
+        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getBPointX() {
@@ -63,8 +53,8 @@ public class Triangle implements Shape {
     public void setBPointX(double bPointX) {
         this.bPointX = bPointX;
 
-        this.aBLength = Math.sqrt(Math.pow(bPointX - this.aPointX, 2) + Math.pow(this.bPointY - this.aPointY, 2));
-        this.bCLength = Math.sqrt(Math.pow(this.cPointX - bPointX, 2) + Math.pow(this.cPointY - this.bPointY, 2));
+        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
+        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
     }
 
     public double getBPointY() {
@@ -74,8 +64,8 @@ public class Triangle implements Shape {
     public void setBPointY(double bPointY) {
         this.bPointY = bPointY;
 
-        this.aBLength = Math.sqrt(Math.pow(this.bPointX - this.aPointX, 2) + Math.pow(bPointY - this.aPointY, 2));
-        this.bCLength = Math.sqrt(Math.pow(this.cPointX - this.bPointX, 2) + Math.pow(this.cPointY - bPointY, 2));
+        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
+        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
     }
 
     public double getCPointX() {
@@ -85,8 +75,8 @@ public class Triangle implements Shape {
     public void setCPointX(double cPointX) {
         this.cPointX = cPointX;
 
-        this.bCLength = Math.sqrt(Math.pow(cPointX - this.bPointX, 2) + Math.pow(this.cPointY - this.bPointY, 2));
-        this.cALength = Math.sqrt(Math.pow(this.aPointX - cPointX, 2) + Math.pow(this.aPointY - this.cPointY, 2));
+        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
+        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getCPointY() {
@@ -96,8 +86,8 @@ public class Triangle implements Shape {
     public void setCPointY(double cPointY) {
         this.cPointY = cPointY;
 
-        this.bCLength = Math.sqrt(Math.pow(this.cPointX - this.bPointX, 2) + Math.pow(cPointY - this.bPointY, 2));
-        this.cALength = Math.sqrt(Math.pow(this.aPointX - this.cPointX, 2) + Math.pow(this.aPointY - cPointY, 2));
+        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
+        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getABLength() {
@@ -114,23 +104,23 @@ public class Triangle implements Shape {
 
     @Override
     public double getWidth() {
-        return Math.max(Math.max(this.getAPointX(), this.getBPointX()), this.getCPointX()) - Math.min(Math.min(this.getAPointX(), this.getBPointX()), this.getCPointX());
+        return Math.max(Math.max(aPointX, bPointX), cPointX) - Math.min(Math.min(aPointX, bPointX), cPointX);
     }
 
     @Override
     public double getHeight() {
-        return Math.max(Math.max(this.getAPointY(), this.getBPointY()), this.getCPointY()) - Math.min(Math.min(this.getAPointY(), this.getBPointY()), this.getCPointY());
+        return Math.max(Math.max(aPointY, bPointY), cPointY) - Math.min(Math.min(aPointY, bPointY), cPointY);
     }
 
     @Override
     public double getArea() {
-        double semiPerimeter = this.getPerimeter() / 2;
+        double semiPerimeter = getPerimeter() / 2;
 
-        return Math.sqrt(semiPerimeter * (semiPerimeter - this.aBLength) * (semiPerimeter - this.bCLength) * (semiPerimeter - this.cALength));
+        return Math.sqrt(semiPerimeter * (semiPerimeter - aBLength) * (semiPerimeter - bCLength) * (semiPerimeter - cALength));
     }
 
     @Override
     public double getPerimeter() {
-        return this.aBLength + this.bCLength + this.cALength;
+        return aBLength + bCLength + cALength;
     }
 }

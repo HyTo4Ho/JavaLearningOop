@@ -27,21 +27,21 @@ public class Rectangle implements Shape {
 
     @Override
     public double getWidth() {
-        return Math.max(this.side1, this.side2);
+        return Math.max(side1, side2);
     }
 
     @Override
     public double getHeight() {
-        return Math.min(this.side1, this.side2);
+        return Math.min(side1, side2);
     }
 
     @Override
     public double getArea() {
-        return this.side1 * this.side2;
+        return side1 * side2;
     }
 
     @Override
     public double getPerimeter() {
-        return this.side1 * 2 + this.side2 * 2;
+        return side1 * 2 + side2 * 2;
     }
 }

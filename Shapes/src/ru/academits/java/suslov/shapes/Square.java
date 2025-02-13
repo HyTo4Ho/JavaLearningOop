@@ -17,21 +17,21 @@ public class Square implements Shape {
 
     @Override
     public double getWidth() {
-        return this.side;
+        return side;
     }
 
     @Override
     public double getHeight() {
-        return this.side;
+        return side;
     }
 
     @Override
     public double getArea() {
-        return Math.pow(this.side, 2);
+        return Math.pow(side, 2);
     }
 
     @Override
     public double getPerimeter() {
-        return this.side * 4;
+        return side * 4;
     }
 }
