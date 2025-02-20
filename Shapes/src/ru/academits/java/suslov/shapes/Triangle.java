@@ -1,5 +1,7 @@
 package ru.academits.java.suslov.shapes;
 
+import java.util.Objects;
+
 public class Triangle implements Shape {
     private double aPointX;
     private double aPointY;
@@ -100,6 +102,31 @@ public class Triangle implements Shape {
 
     public double getCALength() {
         return cALength;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Triangle triangle = (Triangle) o;
+        return Double.compare(triangle.aPointX, aPointX) == 0 && Double.compare(triangle.aPointY, aPointY) == 0 && Double.compare(triangle.bPointX, bPointX) == 0 && Double.compare(triangle.bPointY, bPointY) == 0 && Double.compare(triangle.cPointX, cPointX) == 0 && Double.compare(triangle.cPointY, cPointY) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(aPointX, aPointY, bPointX, bPointY, cPointX, cPointY);
+    }
+
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "aPointX=" + aPointX +
+                ", aPointY=" + aPointY +
+                ", bPointX=" + bPointX +
+                ", bPointY=" + bPointY +
+                ", cPointX=" + cPointX +
+                ", cPointY=" + cPointY +
+                '}';
     }
 
     @Override
