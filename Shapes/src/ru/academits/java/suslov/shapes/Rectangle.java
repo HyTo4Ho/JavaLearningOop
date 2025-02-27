@@ -3,28 +3,20 @@ package ru.academits.java.suslov.shapes;
 import java.util.Objects;
 
 public class Rectangle implements Shape {
-    private double side1;
-    private double side2;
+    private double width;
+    private double height;
 
-    public Rectangle(double side1, double side2) {
-        this.side1 = side1;
-        this.side2 = side2;
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
     }
 
-    public double getSide1() {
-        return side1;
+    public void setWidth(double width) {
+        this.width = width;
     }
 
-    public void setSide1(double side1) {
-        this.side1 = side1;
-    }
-
-    public double getSide2() {
-        return side2;
-    }
-
-    public void setSide2(double side2) {
-        this.side2 = side2;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     @Override
@@ -32,39 +24,36 @@ public class Rectangle implements Shape {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Rectangle rectangle = (Rectangle) o;
-        return Double.compare(rectangle.side1, side1) == 0 && Double.compare(rectangle.side2, side2) == 0;
+        return Double.compare(rectangle.width, width) == 0 && Double.compare(rectangle.height, height) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(side1, side2);
+        return Objects.hash(width, height);
     }
 
     @Override
     public String toString() {
-        return "Rectangle{" +
-                "side1=" + side1 +
-                ", side2=" + side2 +
-                '}';
+        return String.format("Прямоугольник %.2f на %.2f", width, height);
     }
 
     @Override
     public double getWidth() {
-        return Math.max(side1, side2);
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return Math.min(side1, side2);
+        return height;
     }
 
     @Override
     public double getArea() {
-        return side1 * side2;
+        return width * height;
     }
 
     @Override
     public double getPerimeter() {
-        return side1 * 2 + side2 * 2;
+        return 2 * (width + height);
     }
 }

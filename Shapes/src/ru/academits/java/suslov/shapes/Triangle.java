@@ -9,9 +9,6 @@ public class Triangle implements Shape {
     private double bPointY;
     private double cPointX;
     private double cPointY;
-    private double aBLength;
-    private double bCLength;
-    private double cALength;
 
     public Triangle(double aPointX, double aPointY, double bPointX, double bPointY, double cPointX, double cPointY) {
         this.aPointX = aPointX;
@@ -20,10 +17,6 @@ public class Triangle implements Shape {
         this.bPointY = bPointY;
         this.cPointX = cPointX;
         this.cPointY = cPointY;
-
-        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
-        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
-        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getAPointX() {
@@ -32,9 +25,6 @@ public class Triangle implements Shape {
 
     public void setAPointX(double aPointX) {
         this.aPointX = aPointX;
-
-        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
-        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getAPointY() {
@@ -43,9 +33,6 @@ public class Triangle implements Shape {
 
     public void setAPointY(double aPointY) {
         this.aPointY = aPointY;
-
-        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
-        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getBPointX() {
@@ -54,9 +41,6 @@ public class Triangle implements Shape {
 
     public void setBPointX(double bPointX) {
         this.bPointX = bPointX;
-
-        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
-        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
     }
 
     public double getBPointY() {
@@ -65,9 +49,6 @@ public class Triangle implements Shape {
 
     public void setBPointY(double bPointY) {
         this.bPointY = bPointY;
-
-        aBLength = Math.sqrt(Math.pow(bPointX - aPointX, 2) + Math.pow(bPointY - aPointY, 2));
-        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
     }
 
     public double getCPointX() {
@@ -76,9 +57,6 @@ public class Triangle implements Shape {
 
     public void setCPointX(double cPointX) {
         this.cPointX = cPointX;
-
-        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
-        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
     }
 
     public double getCPointY() {
@@ -87,21 +65,22 @@ public class Triangle implements Shape {
 
     public void setCPointY(double cPointY) {
         this.cPointY = cPointY;
+    }
 
-        bCLength = Math.sqrt(Math.pow(cPointX - bPointX, 2) + Math.pow(cPointY - bPointY, 2));
-        cALength = Math.sqrt(Math.pow(aPointX - cPointX, 2) + Math.pow(aPointY - cPointY, 2));
+    private double getLength(double firstCoordinateX, double firstCoordinateY, double secondCoordinateX, double secondCoordinateY) {
+        return Math.sqrt(Math.pow(secondCoordinateX - firstCoordinateX, 2) + Math.pow(secondCoordinateY - firstCoordinateY, 2));
     }
 
     public double getABLength() {
-        return aBLength;
+        return getLength(aPointX, aPointY, bPointX, bPointY);
     }
 
     public double getBCLength() {
-        return bCLength;
+        return getLength(bPointX, bPointY, cPointX, cPointY);
     }
 
     public double getCALength() {
-        return cALength;
+        return getLength(cPointX, cPointY, aPointX, aPointY);
     }
 
     @Override
@@ -119,14 +98,7 @@ public class Triangle implements Shape {
 
     @Override
     public String toString() {
-        return "Triangle{" +
-                "aPointX=" + aPointX +
-                ", aPointY=" + aPointY +
-                ", bPointX=" + bPointX +
-                ", bPointY=" + bPointY +
-                ", cPointX=" + cPointX +
-                ", cPointY=" + cPointY +
-                '}';
+        return String.format("Треугольник по точкам (%.2f ; %.2f) , (%.2f ; %.2f) , (%.2f ; %.2f)", aPointX, aPointY, bPointX, bPointY, cPointX, cPointY);
     }
 
     @Override
@@ -143,11 +115,11 @@ public class Triangle implements Shape {
     public double getArea() {
         double semiPerimeter = getPerimeter() / 2;
 
-        return Math.sqrt(semiPerimeter * (semiPerimeter - aBLength) * (semiPerimeter - bCLength) * (semiPerimeter - cALength));
+        return Math.sqrt(semiPerimeter * (semiPerimeter - getABLength()) * (semiPerimeter - getBCLength()) * (semiPerimeter - getCALength()));
     }
 
     @Override
     public double getPerimeter() {
-        return aBLength + bCLength + cALength;
+        return getABLength() + getBCLength() + getCALength();
     }
 }

@@ -10,7 +10,7 @@ public class Square implements Shape {
     }
 
     public double getSide() {
-        return this.side;
+        return side;
     }
 
     public void setSide(double side) {
@@ -32,9 +32,7 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return "Square{" +
-                "side=" + side +
-                '}';
+        return String.format("Квадрат %.2f на %.2f", side, side);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class Square implements Shape {
 
     @Override
     public double getArea() {
-        return Math.pow(side, 2);
+        return side * side;
     }
 
     @Override
