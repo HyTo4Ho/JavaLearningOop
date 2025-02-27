@@ -11,10 +11,10 @@ public class Main {
         System.out.println("Здравствуйте!");
         System.out.println("Пожалуйста, задайте два интервала, а мы поделаем с ними всякого разного.");
         System.out.println("Задайте первый интервал. Введите два числа по маске \"x y\":");
-        String pointsInputString;// = scanner.nextLine();
+        String pointsInputString = scanner.nextLine();
 
         System.out.println("Задайте второй интервал. Введите два числа по маске \"x y\":");
-        pointsInputString = "2 5 5 7";//pointsInputString + " " + scanner.nextLine();
+        pointsInputString = pointsInputString + " " + scanner.nextLine();
 
         String[] points = pointsInputString.split(" ");
 
