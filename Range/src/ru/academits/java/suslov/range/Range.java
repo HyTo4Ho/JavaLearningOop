@@ -53,7 +53,7 @@ public class Range {
      */
     public Range getIntersection(Range range) {
         // Пересечений нет - вернем нул
-        if (from < range.to || range.from < to) {
+        if (from >= range.to || to <= range.from) {
             return null;
         }
 
@@ -64,9 +64,9 @@ public class Range {
      * Получение объединения двух интервалов
      * Если не пересекаются вернется два исходных интервала
      */
-    public Range[] getMerge(Range range) {
+    public Range[] getUnion(Range range) {
         // Пересечений нет - вернем оба
-        if (from < range.to || range.from < to) {
+        if (from > range.to || to < range.from) {
             return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
@@ -79,7 +79,7 @@ public class Range {
      */
     public Range[] getDifference(Range range) {
         // Пересечений нет - вернем исходный интервал
-        if (from < range.to || range.from < to) {
+        if (from >= range.to || to <= range.from) {
             return new Range[]{new Range(from, to)};
         }
 

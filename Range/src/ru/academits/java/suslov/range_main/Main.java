@@ -11,10 +11,10 @@ public class Main {
         System.out.println("Здравствуйте!");
         System.out.println("Пожалуйста, задайте два интервала, а мы поделаем с ними всякого разного.");
         System.out.println("Задайте первый интервал. Введите два числа по маске \"x y\":");
-        String pointsInputString = scanner.nextLine();
+        String pointsInputString;// = scanner.nextLine();
 
         System.out.println("Задайте второй интервал. Введите два числа по маске \"x y\":");
-        pointsInputString = pointsInputString + " " + scanner.nextLine();
+        pointsInputString = "2 5 5 7";//pointsInputString + " " + scanner.nextLine();
 
         String[] points = pointsInputString.split(" ");
 
@@ -34,32 +34,32 @@ public class Main {
             System.out.println("Второй отрезок проходит через 0");
         }
 
-        Range joinRange = range1.getIntersection(range2);
+        Range intersection = range1.getIntersection(range2);
 
-        if (joinRange != null) {
-            System.out.printf("Отрезки пересекаются на интервале от: %.2f до: %.2f", joinRange.getFrom(), joinRange.getTo());
+        if (intersection != null) {
+            System.out.printf("Отрезки пересекаются на интервале от: %.2f до: %.2f", intersection.getFrom(), intersection.getTo());
             System.out.println();
         } else {
             System.out.println("Отрезки не пересекаются");
         }
 
-        Range[] mergeRange = range1.getMerge(range2);
+        Range[] union = range1.getUnion(range2);
 
-        if (mergeRange.length == 2) {
-            System.out.printf("При объединении получаются отрезки от: %.2f до: %.2f и от: %.2f до: %.2f", mergeRange[0].getFrom(), mergeRange[0].getTo(), mergeRange[1].getFrom(), mergeRange[1].getTo());
+        if (union.length == 2) {
+            System.out.printf("При объединении получаются отрезки от: %.2f до: %.2f и от: %.2f до: %.2f", union[0].getFrom(), union[0].getTo(), union[1].getFrom(), union[1].getTo());
             System.out.println();
         } else {
-            System.out.printf("При объединении получается отрезок от: %.2f до: %.2f", mergeRange[0].getFrom(), mergeRange[0].getTo());
+            System.out.printf("При объединении получается отрезок от: %.2f до: %.2f", union[0].getFrom(), union[0].getTo());
             System.out.println();
         }
 
-        Range[] subtractionRange = range1.getDifference(range2);
+        Range[] difference = range1.getDifference(range2);
 
-        if (subtractionRange.length == 2) {
-            System.out.printf("При вычитании получаются отрезки от: %.2f до: %.2f и от: %.2f до: %.2f", subtractionRange[0].getFrom(), subtractionRange[0].getTo(), subtractionRange[1].getFrom(), subtractionRange[1].getTo());
+        if (difference.length == 2) {
+            System.out.printf("При вычитании получаются отрезки от: %.2f до: %.2f и от: %.2f до: %.2f", difference[0].getFrom(), difference[0].getTo(), difference[1].getFrom(), difference[1].getTo());
             System.out.println();
-        } else if (subtractionRange.length == 1) {
-            System.out.printf("При вычитании получается отрезок от: %.2f до: %.2f", subtractionRange[0].getFrom(), subtractionRange[0].getTo());
+        } else if (difference.length == 1) {
+            System.out.printf("При вычитании получается отрезок от: %.2f до: %.2f", difference[0].getFrom(), difference[0].getTo());
             System.out.println();
         } else {
             System.out.println("При вычитании ничего не остается");
