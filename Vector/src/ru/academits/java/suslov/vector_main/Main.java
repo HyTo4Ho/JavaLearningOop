@@ -46,7 +46,7 @@ public class Main {
                                 и %s""", vector1, vector2);
         System.out.println();
 
-        vector1.addVector(vector2);
+        vector1.add(vector2);
 
         System.out.printf("Результат =       %s", vector1);
         System.out.println();
@@ -57,16 +57,16 @@ public class Main {
                              вектора %s""", vector1, vector2);
         System.out.println();
 
-        vector1.subtractVector(vector2);
+        vector1.subtract(vector2);
 
         System.out.printf("Результат =          %s", vector1);
         System.out.println();
         System.out.println();
 
-        System.out.printf("Умножение вектора %s на %s", vector1, 5);
+        System.out.printf("Умножение вектора %s на %.1f", vector1, 5.5);
         System.out.println();
 
-        vector1.multiply(5);
+        vector1.multiply(5.5);
 
         System.out.printf("Результат = %s", vector1);
         System.out.println();
@@ -113,7 +113,7 @@ public class Main {
         System.out.printf("Вектор сумма двух векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        Vector vector3 = Vector.createSumVector(vector1, vector2);
+        Vector vector3 = Vector.getSum(vector1, vector2);
 
         System.out.printf("Результат = %s", vector3);
         System.out.println();
@@ -125,7 +125,7 @@ public class Main {
         System.out.printf("Вектор разность двух векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        vector3 = Vector.createDifferenceVector(vector1, vector2);
+        vector3 = Vector.getDifference(vector1, vector2);
 
         System.out.printf("Результат = %s", vector3);
         System.out.println();
@@ -134,12 +134,10 @@ public class Main {
         vector1 = new Vector(new double[]{5.0, 5.0, 5.0});
         vector2 = new Vector(new double[]{0.0, 2.0, 1.0});
 
-        System.out.printf("Вектор произведение двух векторов %s и %s", vector1, vector2);
+        System.out.printf("Скалярное произведение произведение двух векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        vector3 = Vector.createMultipleVector(vector1, vector2);
-
-        System.out.printf("Результат = %s", vector3);
+        System.out.printf("Результат = %.2f", Vector.getScalar(vector1, vector2));
         System.out.println();
         System.out.println();
     }
