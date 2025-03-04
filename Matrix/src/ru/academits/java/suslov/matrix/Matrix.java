@@ -16,7 +16,7 @@ public class Matrix {
     }
 
     /**
-     * матрица нулей размера nxm
+     * Матрица нулей размера nxm
      */
     public Matrix(int rowsCount, int componentsCount) {
         rows = new Vector[rowsCount];
@@ -27,14 +27,14 @@ public class Matrix {
     }
 
     /**
-     * конструктор копирования
+     * Конструктор копирования
      */
     public Matrix(Matrix matrix) {
         rows = matrix.rows;
     }
 
     /**
-     * из двумерного массива
+     * Из двумерного массива
      */
     Matrix(double[][] matrix) {
         rows = new Vector[matrix.length];
@@ -45,7 +45,7 @@ public class Matrix {
     }
 
     /**
-     * из массива векторов-строк
+     * Из массива векторов-строк
      */
     Matrix(Vector[] vectorsArray) {
         rows = new Vector[vectorsArray.length];
@@ -72,11 +72,15 @@ public class Matrix {
     public String toString() {
         StringBuilder result = new StringBuilder("{");
 
-        for (Vector e : rows) {
-            result.append(e.toString()).append(", ");
+        for (int i = 0; i < rows.length; i++) {
+            result.append(rows[i].toString());
+
+            if (i != rows.length - 1) {
+                result.append(", ");
+            }
         }
 
-        return result.substring(0, result.length() - 2) + "}";
+        return result.append("}").toString();
     }
 
     /**
@@ -126,7 +130,7 @@ public class Matrix {
     /**
      * Умножение на скаляр
      */
-    public void multiply(int n) {
+    public void multiply(double n) {
         for (int i = 0; i < rows.length; i++) {
             rows[i].multiply(n);
         }
@@ -169,40 +173,42 @@ public class Matrix {
     }
 
     /**
-     * умножение матрицы на вектор
+     * Умножение матрицы на вектор
      */
     public void multiplyOnVector(Vector vector) {
+/*
         for (int i = 0; i < rows.length; i++) {
-            rows[i] = Vector.createMultipleVector(rows[i], vector);
+            rows[i] = Vector.getMultiple(rows[i], vector);
         }
+*/
     }
 
     /**
      * Сложение матриц
      */
-    public void addMatrix(Matrix matrix) {
+    public void add(Matrix matrix) {
         for (int i = 0; i < rows.length; i++) {
-            rows[i].addVector(matrix.rows[i]);
+            rows[i].add(matrix.rows[i]);
         }
     }
 
     /**
      * Вычитание матриц
      */
-    public void subtractMatrix(Matrix matrix) {
+    public void subtract(Matrix matrix) {
         for (int i = 0; i < rows.length; i++) {
-            rows[i].subtractVector(matrix.rows[i]);
+            rows[i].subtract(matrix.rows[i]);
         }
     }
 
     /**
      * Сложение матриц
      */
-    public static Matrix createSumVector(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
         Matrix result = new Matrix(matrix1);
 
         for (int i = 0; i < matrix1.rows.length; i++) {
-            result.rows[i].addVector(matrix2.rows[i]);
+            result.rows[i].add(matrix2.rows[i]);
         }
 
         return result;
@@ -211,11 +217,11 @@ public class Matrix {
     /**
      * Вычитание матриц
      */
-    public static Matrix createDifferenceVector(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
         Matrix result = new Matrix(matrix1);
 
         for (int i = 0; i < matrix1.rows.length; i++) {
-            result.rows[i].subtractVector(matrix2.rows[i]);
+            result.rows[i].subtract(matrix2.rows[i]);
         }
 
         return result;
@@ -224,12 +230,13 @@ public class Matrix {
     /**
      * Умножение матриц
      */
-    public static Matrix createMultipleVector(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getMultiple(Matrix matrix1, Matrix matrix2) {
         Matrix result = new Matrix(matrix1.rows.length, matrix1.rows.length);
-
+        /*
         for (int i = 0; i < matrix1.rows.length; i++) {
-            result.rows[i] = Vector.createMultipleVector(matrix1.rows[i], matrix2.rows[i]);
+            result.rows[i] = Vector.getMultiple(matrix1.rows[i], matrix2.rows[i]);
         }
+        */
 
         return result;
     }
