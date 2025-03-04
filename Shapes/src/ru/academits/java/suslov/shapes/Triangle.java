@@ -85,8 +85,14 @@ public class Triangle implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Triangle triangle = (Triangle) o;
         return Double.compare(triangle.aPointX, aPointX) == 0 && Double.compare(triangle.aPointY, aPointY) == 0 && Double.compare(triangle.bPointX, bPointX) == 0 && Double.compare(triangle.bPointY, bPointY) == 0 && Double.compare(triangle.cPointX, cPointX) == 0 && Double.compare(triangle.cPointY, cPointY) == 0;
     }

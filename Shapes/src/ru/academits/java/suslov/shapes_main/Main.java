@@ -3,7 +3,6 @@ package ru.academits.java.suslov.shapes_main;
 import ru.academits.java.suslov.shapes.*;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
