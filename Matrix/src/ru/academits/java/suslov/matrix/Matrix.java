@@ -36,7 +36,7 @@ public class Matrix {
     /**
      * Из двумерного массива
      */
-    Matrix(double[][] matrix) {
+    public Matrix(double[][] matrix) {
         rows = new Vector[matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {
@@ -47,7 +47,7 @@ public class Matrix {
     /**
      * Из массива векторов-строк
      */
-    Matrix(Vector[] vectorsArray) {
+    public Matrix(Vector[] vectorsArray) {
         rows = new Vector[vectorsArray.length];
 
         for (int i = 0; i < vectorsArray.length; i++) {
