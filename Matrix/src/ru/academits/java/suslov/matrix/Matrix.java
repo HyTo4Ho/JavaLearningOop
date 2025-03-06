@@ -53,8 +53,14 @@ public class Matrix {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Matrix matrix = (Matrix) o;
         return Arrays.equals(rows, matrix.rows);
     }
@@ -90,6 +96,10 @@ public class Matrix {
      * Получение вектора-строки по индексу
      */
     public Vector getRow(int index) {
+        if (index < 0 || index > rows.length - 1) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", rows.length, index));
+        }
+
         return rows[index];
     }
 
@@ -97,6 +107,14 @@ public class Matrix {
      * Задание вектора-строки по индексу
      */
     public void setRow(int index, Vector row) {
+        if (index < 0 || index > rows.length - 1) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", rows.length, index));
+        }
+
+        if (row.getSize() != rows[0].getSize() && rows.length > 1) {
+            throw new IllegalArgumentException(String.format("Размер вектора должен быть %d. Передано = %d", rows[0].getSize(), row.getSize()));
+        }
+
         rows[index] = new Vector(row);
     }
 
@@ -104,6 +122,10 @@ public class Matrix {
      * Получение вектора-столбца по индексу
      */
     public Vector getColumnByIndex(int index) {
+        if (index < 0 || index > rows[0].getSize() - 1) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", rows[0].getSize(), index));
+        }
+
         Vector result = new Vector(rows.length);
 
         for (int i = 0; i < rows.length; i++) {
@@ -117,6 +139,10 @@ public class Matrix {
      * Транспонирование матрицы
      */
     public void transpose() {
+        if (rows.length != rows[0].getSize()) {
+            throw new IllegalArgumentException("Матрица должна быть квадратной");
+        }
+
         Matrix tmp = new Matrix(this);
 
         for (int i = 0; i < tmp.rows[0].getSize(); i++) {
@@ -175,6 +201,10 @@ public class Matrix {
      * Умножение матрицы на вектор
      */
     public double[] multiplyOnVector(Vector vector) {
+        if (vector.getSize() != rows[0].getSize()) {
+            throw new IllegalArgumentException("Размер вектора должен совпадать с количеством столбцов");
+        }
+
         double[] result = new double[rows.length];
 
         for (int i = 0; i < rows.length; i++) {
@@ -188,6 +218,10 @@ public class Matrix {
      * Сложение матриц
      */
     public void add(Matrix matrix) {
+        if (rows.length != matrix.getSize() || rows[0].getSize() != matrix.rows[0].getSize()) {
+            throw new IllegalArgumentException("Матрицы должна быть равны");
+        }
+
         for (int i = 0; i < rows.length; i++) {
             rows[i].add(matrix.rows[i]);
         }
@@ -197,6 +231,10 @@ public class Matrix {
      * Вычитание матриц
      */
     public void subtract(Matrix matrix) {
+        if (rows.length != matrix.getSize() || rows[0].getSize() != matrix.rows[0].getSize()) {
+            throw new IllegalArgumentException("Матрицы должна быть равны");
+        }
+
         for (int i = 0; i < rows.length; i++) {
             rows[i].subtract(matrix.rows[i]);
         }
@@ -206,6 +244,10 @@ public class Matrix {
      * Сложение матриц
      */
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.getSize() != matrix2.getSize() || matrix1.rows[0].getSize() != matrix2.rows[0].getSize()) {
+            throw new IllegalArgumentException("Матрицы должна быть равны");
+        }
+
         Matrix result = new Matrix(matrix1);
 
         for (int i = 0; i < matrix1.getSize(); i++) {
@@ -221,6 +263,10 @@ public class Matrix {
      * Вычитание матриц
      */
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.getSize() != matrix2.getSize() || matrix1.rows[0].getSize() != matrix2.rows[0].getSize()) {
+            throw new IllegalArgumentException("Матрицы должна быть равны");
+        }
+
         Matrix result = new Matrix(matrix1);
 
         for (int i = 0; i < matrix1.getSize(); i++) {
@@ -234,6 +280,10 @@ public class Matrix {
      * Умножение матриц
      */
     public static Matrix getMultiple(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.getSize() != matrix2.getSize() || matrix1.rows[0].getSize() != matrix2.rows[0].getSize()) {
+            throw new IllegalArgumentException("Матрицы должна быть равны");
+        }
+
         Matrix result = new Matrix(matrix1.rows.length, 1);
 
         for (int i = 0; i < matrix1.rows.length; i++) {
