@@ -5,7 +5,7 @@ import java.util.Arrays;
 import ru.academits.java.suslov.vector.Vector;
 
 public class Matrix {
-    private Vector rows[];
+    private final Vector[] rows;
 
     /**
      * Матрица нулей размера nxm
@@ -128,8 +128,8 @@ public class Matrix {
      * Умножение на скаляр
      */
     public void multiply(double n) {
-        for (int i = 0; i < rows.length; i++) {
-            rows[i].multiply(n);
+        for (Vector row : rows) {
+            row.multiply(n);
         }
     }
 
