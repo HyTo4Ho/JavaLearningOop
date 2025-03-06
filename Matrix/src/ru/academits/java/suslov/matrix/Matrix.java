@@ -7,14 +7,6 @@ import ru.academits.java.suslov.vector.Vector;
 public class Matrix {
     private Vector rows[];
 
-    public Vector[] getRows() {
-        return rows;
-    }
-
-    public void setRows(Vector[] rows) {
-        this.rows = rows;
-    }
-
     /**
      * Матрица нулей размера nxm
      */
@@ -30,7 +22,11 @@ public class Matrix {
      * Конструктор копирования
      */
     public Matrix(Matrix matrix) {
-        rows = matrix.rows;
+        rows = new Vector[matrix.rows.length];
+
+        for (int i = 0; i < matrix.getSize(); i++) {
+            rows[i] = new Vector(matrix.rows[i]);
+        }
     }
 
     /**
@@ -93,14 +89,14 @@ public class Matrix {
     /**
      * Получение вектора-строки по индексу
      */
-    public Vector getRowByIndex(int index) {
+    public Vector getRow(int index) {
         return rows[index];
     }
 
     /**
      * Задание вектора-строки по индексу
      */
-    public void getRowByIndex(int index, Vector row) {
+    public void setRow(int index, Vector row) {
         rows[index] = new Vector(row);
     }
 
@@ -109,8 +105,9 @@ public class Matrix {
      */
     public Vector getColumnByIndex(int index) {
         Vector result = new Vector(rows.length);
+
         for (int i = 0; i < rows.length; i++) {
-            result.setComponentWithIndex(index, rows[i].getComponentWithIndex(index));
+            result.setComponent(i, rows[i].getComponent(index));
         }
 
         return result;
@@ -122,7 +119,7 @@ public class Matrix {
     public void transpose() {
         Matrix tmp = new Matrix(this);
 
-        for (int i = 0; i < tmp.rows[0].getLength(); i++) {
+        for (int i = 0; i < tmp.rows[0].getSize(); i++) {
             rows[i] = tmp.getColumnByIndex(i);
         }
     }
@@ -141,32 +138,34 @@ public class Matrix {
      */
     public double getDeterminant() {
         double result = 0;
-        double element = 0;
+        double temp = 1;
 
-        for (int i = 0; i < rows[0].getLength(); i++) {
-            for (int j = 0; j < rows.length; i++) {
+        for (int i = 0; i < rows[0].getSize(); i++) {
+            for (int j = 0; j < rows.length; j++) {
                 int index = j + i;
-                if (index > rows.length) {
+                if (index >= rows.length) {
                     index -= rows.length;
                 }
 
-                element += +rows[index].getComponentWithIndex(j);
+                temp *= rows[index].getComponent(j);
             }
 
-            result += element;
+            result += temp;
+            temp = 1;
         }
 
-        for (int i = 0; i < rows[0].getLength(); i++) {
-            for (int j = 0; j < rows.length; i++) {
-                int index = j - i;
+        for (int i = 0; i < rows[0].getSize(); i++) {
+            for (int j = 0; j < rows.length; j++) {
+                int index = i - j;
                 if (index < 0) {
                     index += rows.length;
                 }
 
-                element += +rows[index].getComponentWithIndex(j);
+                temp *= rows[j].getComponent(index);
             }
 
-            result -= element;
+            result -= temp;
+            temp = 1;
         }
 
         return result;
@@ -175,12 +174,14 @@ public class Matrix {
     /**
      * Умножение матрицы на вектор
      */
-    public void multiplyOnVector(Vector vector) {
-/*
+    public double[] multiplyOnVector(Vector vector) {
+        double[] result = new double[rows.length];
+
         for (int i = 0; i < rows.length; i++) {
-            rows[i] = Vector.getMultiple(rows[i], vector);
+            result[i] = Vector.getScalar(rows[i], vector);
         }
-*/
+
+        return result;
     }
 
     /**
@@ -207,7 +208,9 @@ public class Matrix {
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
         Matrix result = new Matrix(matrix1);
 
-        for (int i = 0; i < matrix1.rows.length; i++) {
+        for (int i = 0; i < matrix1.getSize(); i++) {
+            System.out.println(i);
+
             result.rows[i].add(matrix2.rows[i]);
         }
 
@@ -220,7 +223,7 @@ public class Matrix {
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
         Matrix result = new Matrix(matrix1);
 
-        for (int i = 0; i < matrix1.rows.length; i++) {
+        for (int i = 0; i < matrix1.getSize(); i++) {
             result.rows[i].subtract(matrix2.rows[i]);
         }
 
@@ -231,12 +234,11 @@ public class Matrix {
      * Умножение матриц
      */
     public static Matrix getMultiple(Matrix matrix1, Matrix matrix2) {
-        Matrix result = new Matrix(matrix1.rows.length, matrix1.rows.length);
-        /*
+        Matrix result = new Matrix(matrix1.rows.length, 1);
+
         for (int i = 0; i < matrix1.rows.length; i++) {
-            result.rows[i] = Vector.getMultiple(matrix1.rows[i], matrix2.rows[i]);
+            result.rows[i].setComponent(0, Vector.getScalar(matrix1.rows[i], matrix2.rows[i]));
         }
-        */
 
         return result;
     }
