@@ -90,11 +90,11 @@ public class Main {
         System.out.printf("Установка компоненты вектора %s по индексу %d. Поставим %f", vector1, 0, 4.2);
         System.out.println();
 
-        vector1.setComponentWithIndex(0, 4.2);
+        vector1.setComponent(0, 4.2);
 
         System.out.printf("Получение компоненты вектора %s по индексу %d", vector1, 0);
         System.out.println();
-        System.out.printf("Результат = %s", vector1.getComponentWithIndex(0));
+        System.out.printf("Результат = %s", vector1.getComponent(0));
         System.out.println();
         System.out.println();
 

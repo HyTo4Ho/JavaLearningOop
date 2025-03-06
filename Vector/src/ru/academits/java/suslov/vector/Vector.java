@@ -147,14 +147,14 @@ public class Vector {
     /**
      * Получение компоненты вектора по индексу
      */
-    public double getComponentWithIndex(int index) {
+    public double getComponent(int index) {
         return components[index];
     }
 
     /**
      * Установка компоненты вектора по индексу
      */
-    public void setComponentWithIndex(int index, double component) {
+    public void setComponent(int index, double component) {
         components[index] = component;
     }
 
