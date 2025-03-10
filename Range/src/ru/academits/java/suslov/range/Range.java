@@ -83,6 +83,11 @@ public class Range {
             return new Range[]{new Range(from, to)};
         }
 
+        // Первый интервал полностью лежит во втором - вернем null
+        if (from >= range.from && to <= range.to) {
+            return null;
+        }
+
         // Второй интервал полностью лежит в первом - тогда будет два куска
         if (range.from >= from && range.to <= to) {
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
