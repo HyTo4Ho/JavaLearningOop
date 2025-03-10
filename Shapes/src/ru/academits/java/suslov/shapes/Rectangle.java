@@ -1,7 +1,5 @@
 package ru.academits.java.suslov.shapes;
 
-import java.util.Objects;
-
 public class Rectangle implements Shape {
     private double width;
     private double height;
@@ -11,8 +9,18 @@ public class Rectangle implements Shape {
         this.height = height;
     }
 
+    @Override
+    public double getWidth() {
+        return width;
+    }
+
     public void setWidth(double width) {
         this.width = width;
+    }
+
+    @Override
+    public double getHeight() {
+        return height;
     }
 
     public void setHeight(double height) {
@@ -30,27 +38,23 @@ public class Rectangle implements Shape {
         }
 
         Rectangle rectangle = (Rectangle) o;
-        return Double.compare(rectangle.width, width) == 0 && Double.compare(rectangle.height, height) == 0;
+        return rectangle.width == width && rectangle.height == height;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(width, height);
+        final int PRIME = 37;
+        int hash = 1;
+
+        hash = PRIME * hash + Double.hashCode(width);
+        hash = PRIME * hash + Double.hashCode(height);
+
+        return hash;
     }
 
     @Override
     public String toString() {
         return String.format("Прямоугольник %.2f на %.2f", width, height);
-    }
-
-    @Override
-    public double getWidth() {
-        return width;
-    }
-
-    @Override
-    public double getHeight() {
-        return height;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package ru.academits.java.suslov.shapes;
 
-import java.util.Objects;
-
 public class Triangle implements Shape {
     private double aPointX;
     private double aPointY;
@@ -67,8 +65,8 @@ public class Triangle implements Shape {
         this.cPointY = cPointY;
     }
 
-    private double getLength(double firstCoordinateX, double firstCoordinateY, double secondCoordinateX, double secondCoordinateY) {
-        return Math.sqrt(Math.pow(secondCoordinateX - firstCoordinateX, 2) + Math.pow(secondCoordinateY - firstCoordinateY, 2));
+    private static double getLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     public double getABLength() {
@@ -94,17 +92,28 @@ public class Triangle implements Shape {
         }
 
         Triangle triangle = (Triangle) o;
-        return Double.compare(triangle.aPointX, aPointX) == 0 && Double.compare(triangle.aPointY, aPointY) == 0 && Double.compare(triangle.bPointX, bPointX) == 0 && Double.compare(triangle.bPointY, bPointY) == 0 && Double.compare(triangle.cPointX, cPointX) == 0 && Double.compare(triangle.cPointY, cPointY) == 0;
+        return triangle.aPointX == aPointX && triangle.aPointY == aPointY && triangle.bPointX == bPointX &&
+                triangle.bPointY == bPointY && triangle.cPointX == cPointX && triangle.cPointY == cPointY;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(aPointX, aPointY, bPointX, bPointY, cPointX, cPointY);
+        final int PRIME = 37;
+        int hash = 1;
+
+        hash = PRIME * hash + Double.hashCode(aPointX);
+        hash = PRIME * hash + Double.hashCode(aPointY);
+        hash = PRIME * hash + Double.hashCode(bPointX);
+        hash = PRIME * hash + Double.hashCode(bPointY);
+        hash = PRIME * hash + Double.hashCode(cPointX);
+        hash = PRIME * hash + Double.hashCode(cPointY);
+
+        return hash;
     }
 
     @Override
     public String toString() {
-        return String.format("Треугольник по точкам (%.2f ; %.2f) , (%.2f ; %.2f) , (%.2f ; %.2f)", aPointX, aPointY, bPointX, bPointY, cPointX, cPointY);
+        return String.format("Треугольник по точкам (%.2f; %.2f), (%.2f; %.2f), (%.2f; %.2f)", aPointX, aPointY, bPointX, bPointY, cPointX, cPointY);
     }
 
     @Override
@@ -119,9 +128,13 @@ public class Triangle implements Shape {
 
     @Override
     public double getArea() {
-        double semiPerimeter = getPerimeter() / 2;
+        double aBLength = getABLength();
+        double bCLength = getBCLength();
+        double cALength = getCALength();
 
-        return Math.sqrt(semiPerimeter * (semiPerimeter - getABLength()) * (semiPerimeter - getBCLength()) * (semiPerimeter - getCALength()));
+        double semiPerimeter = (aBLength + bCLength + cALength) / 2;
+
+        return Math.sqrt(semiPerimeter * (semiPerimeter - aBLength) * (semiPerimeter - bCLength) * (semiPerimeter - cALength));
     }
 
     @Override

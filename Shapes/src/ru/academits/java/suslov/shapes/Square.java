@@ -1,7 +1,5 @@
 package ru.academits.java.suslov.shapes;
 
-import java.util.Objects;
-
 public class Square implements Shape {
     private double side;
 
@@ -28,12 +26,12 @@ public class Square implements Shape {
         }
 
         Square square = (Square) o;
-        return Double.compare(square.side, side) == 0;
+        return square.side == side;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(side);
+        return Double.hashCode(side);
     }
 
     @Override

@@ -1,4 +1,6 @@
-package ru.academits.java.suslov.shapes;
+package ru.academits.java.suslov.shapes_comparators;
+
+import ru.academits.java.suslov.shapes.Shape;
 
 import java.util.Comparator;
 
