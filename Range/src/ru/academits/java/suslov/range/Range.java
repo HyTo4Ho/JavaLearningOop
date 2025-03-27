@@ -83,16 +83,22 @@ public class Range {
             return new Range[]{new Range(from, to)};
         }
 
-        // Первый интервал полностью лежит во втором - вернем null
+        // Первый интервал полностью лежит во втором - вернем пустой массив
         if (from >= range.from && to <= range.to) {
-            return null;
+            return new Range[0];
         }
 
         // Второй интервал полностью лежит в первом - тогда будет два куска
         if (range.from >= from && range.to <= to) {
-            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            if (range.from != from && range.to != to) {
+                return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            } else if (range.to != to) {
+                return new Range[]{new Range(range.to, to)};
+            } else {
+                return new Range[]{new Range(from, range.from)};
+            }
         }
 
-        return new Range[]{new Range(Math.min(from, range.from), Math.max(from, range.from))};
+        return new Range[]{new Range(from >= range.from ? Math.max(from, range.to) : Math.min(from, range.from), to >= range.to ? Math.max(to, range.to) : Math.min(to, range.from))};
     }
 }
