@@ -63,7 +63,16 @@ public class CsvParser {
                         }
                     }
 
-                    element.append(rowChars[i]);
+                    if (rowChars[i] == '<') {
+                        element.append("&lt");
+                    } else if (rowChars[i] == '>') {
+                        element.append("&gt");
+                    } else if (rowChars[i] == '&') {
+                        element.append("&amp");
+                    } else {
+                        element.append(rowChars[i]);
+                    }
+
                     isProtectedSymbol = false;
                 }
 
