@@ -1,8 +1,6 @@
 package ru.academits.java.suslov.hashTable;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 import ru.academits.java.suslov.arrayList.ArrayList;
 
@@ -46,7 +44,12 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean add(T t) {
-        items[Math.abs(Objects.hashCode(t) % items.length)].add(t);
+        int index = Math.abs(Objects.hashCode(t) % items.length);
+
+        if (items[index] == null) {
+            items[index] = new ArrayList();
+        }
+        items[index].add(t);
 
         return true;
     }
@@ -98,7 +101,30 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new Iterator<>() {
+            private int listIndex;
+            private int elementIndex;
+            private int passedElementsCount;
+
+            @Override
+            public boolean hasNext() {
+                return passedElementsCount < count;
+            }
+
+            @Override
+            public T next() {
+                while (items[listIndex] == null || elementIndex >= items[listIndex].size()) {
+                    listIndex++;
+                    elementIndex = 0;
+                }
+
+                T nextElement = (T) items[listIndex].get(elementIndex);
+                elementIndex++;
+                passedElementsCount++;
+
+                return nextElement;
+            }
+        };
     }
 
     @Override
