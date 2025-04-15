@@ -75,7 +75,7 @@ public class Range {
 
     /**
      * Получение разности двух интервалов (из первого интервала вычитаем второй)
-     * Если не пересекаются вернется пустой массив
+     * Если не пересекаются вернется исходный интервал
      */
     public Range[] getDifference(Range range) {
         // Пересечений нет - вернем исходный интервал
@@ -89,16 +89,14 @@ public class Range {
         }
 
         // Второй интервал полностью лежит в первом - тогда будет два куска
-        if (range.from >= from && range.to <= to) {
-            if (range.from != from && range.to != to) {
-                return new Range[]{new Range(from, range.from), new Range(range.to, to)};
-            } else if (range.to != to) {
-                return new Range[]{new Range(range.to, to)};
-            } else {
-                return new Range[]{new Range(from, range.from)};
-            }
+        if (from < range.from && to > range.to) {
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
-        return new Range[]{new Range(from >= range.from ? Math.max(from, range.to) : Math.min(from, range.from), to >= range.to ? Math.max(to, range.to) : Math.min(to, range.from))};
+        if (from < range.from) {
+            return new Range[]{new Range(from, range.from)};
+        }
+
+        return new Range[]{new Range(range.to, to)};
     }
 }
