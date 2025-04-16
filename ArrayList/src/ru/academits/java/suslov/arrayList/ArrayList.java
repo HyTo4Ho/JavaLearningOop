@@ -127,6 +127,7 @@ public class ArrayList<T> implements List<T> {
                     index++;
                     return items[index];
                 }
+
                 return null;
             }
         };
