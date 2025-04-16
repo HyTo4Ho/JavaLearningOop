@@ -54,17 +54,14 @@ public class Vector {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("{");
+        StringBuilder stringBuilder = new StringBuilder("{");
 
-        for (int i = 0; i < components.length; i++) {
-            result.append(components[i]);
-
-            if (i != components.length - 1) {
-                result.append(", ");
-            }
+        for (double component : components) {
+            stringBuilder.append(component)
+                    .append(", ");
         }
 
-        return result.append("}").toString();
+        return stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()).append('}').toString();
     }
 
     /**
@@ -101,7 +98,7 @@ public class Vector {
             components = Arrays.copyOf(components, vector.components.length);
         }
 
-        for (int i = 0; i < components.length; i++) {
+        for (int i = 0; i < vector.components.length; i++) {
             components[i] += vector.components[i];
         }
     }
@@ -110,7 +107,11 @@ public class Vector {
      * Вычитание из вектора другого вектора
      */
     public void subtract(Vector vector) {
-        for (int i = 0; i < components.length; i++) {
+        if (vector.components.length > components.length) {
+            components = Arrays.copyOf(components, vector.components.length);
+        }
+
+        for (int i = 0; i < vector.components.length; i++) {
             components[i] -= vector.components[i];
         }
     }
@@ -181,8 +182,9 @@ public class Vector {
     /**
      * Скалярное произведение векторов
      */
-    public static double getScalar(Vector vector1, Vector vector2) {
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
         int minSize = Math.min(vector1.components.length, vector2.components.length);
+
         double scalarProduct = 0;
 
         for (int i = 0; i < minSize; i++) {

@@ -208,7 +208,7 @@ public class Matrix {
         double[] result = new double[rows.length];
 
         for (int i = 0; i < rows.length; i++) {
-            result[i] = Vector.getScalar(rows[i], vector);
+            result[i] = Vector.getScalarProduct(rows[i], vector);
         }
 
         return result;
@@ -287,7 +287,7 @@ public class Matrix {
         Matrix result = new Matrix(matrix1.rows.length, 1);
 
         for (int i = 0; i < matrix1.rows.length; i++) {
-            result.rows[i].setComponent(0, Vector.getScalar(matrix1.rows[i], matrix2.rows[i]));
+            result.rows[i].setComponent(0, Vector.getScalarProduct(matrix1.rows[i], matrix2.rows[i]));
         }
 
         return result;
