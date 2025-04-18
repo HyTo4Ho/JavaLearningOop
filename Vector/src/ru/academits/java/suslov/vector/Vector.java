@@ -52,6 +52,18 @@ public class Vector {
         this.components = Arrays.copyOf(components, size);
     }
 
+    public Vector(int size, Vector vector) {
+        if (vector == null) {
+            throw new NullPointerException("Объекта не существует :(");
+        }
+
+        if (size <= 0) {
+            throw new IllegalArgumentException(String.format("Размерность вектора должна быть больше 0. Передано значение %d", size));
+        }
+
+        components = Arrays.copyOf(vector.components, size);
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("{");
