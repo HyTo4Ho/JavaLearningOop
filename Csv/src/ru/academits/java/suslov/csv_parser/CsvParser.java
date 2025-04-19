@@ -1,8 +1,6 @@
 package ru.academits.java.suslov.csv_parser;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+/*
+import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -13,16 +11,16 @@ public class CsvParser {
         rows = new String[0][0];
     }
 
-    public void parse(String fileName) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream(fileName))) {
+    public void parse(String filePath) throws FileNotFoundException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath + File.separator + "input.txt"))) {
             StringBuilder element = new StringBuilder();
             int rowIndex = 0;
             int columnIndex = 0;
             boolean isShielded = false;
             boolean isProtectedSymbol = false;
 
-            while (scanner.hasNextLine()) {
-                String row = scanner.nextLine();
+            while (reader.ready()) {
+                String row = reader.readLine();
                 char[] rowChars = row.toCharArray();
 
                 for (int i = 0; i < rowChars.length; i++) {
@@ -64,11 +62,11 @@ public class CsvParser {
                     }
 
                     if (rowChars[i] == '<') {
-                        element.append("&lt");
+                        element.append("&lt;");
                     } else if (rowChars[i] == '>') {
-                        element.append("&gt");
+                        element.append("&gt;");
                     } else if (rowChars[i] == '&') {
-                        element.append("&amp");
+                        element.append("&amp;");
                     } else {
                         element.append(rowChars[i]);
                     }
@@ -77,9 +75,9 @@ public class CsvParser {
                 }
 
                 if (isShielded) {
-                    element.append(System.lineSeparator());
+                    element.append("<br/>");
                 } else {
-                    if (scanner.hasNextLine()) {
+                    if (reader.ready()) {
                         rowIndex++;
                         columnIndex = 0;
                     } else {
@@ -88,35 +86,49 @@ public class CsvParser {
                     }
                 }
             }
+        } catch (IOException e) {
+            System.out.printf("Ошибка: %s", e.getMessage());
         }
     }
 
     public String getHtml() {
-        StringBuilder html = new StringBuilder();
-
-        html.append("<table>").append(System.lineSeparator());
+        StringBuilder html = new StringBuilder("<!DOCTYPE html>");
+        html.append(System.lineSeparator())
+                .append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"ru\" lang=\"ru\">").append(System.lineSeparator())
+                .append("<head>").append(System.lineSeparator())
+                .append("   <meta charset=\"UTF-8\">").append(System.lineSeparator())
+                .append("   <title>Список из входящего файла</title>").append(System.lineSeparator())
+                .append("</head>").append(System.lineSeparator())
+                .append("<body>").append(System.lineSeparator())
+                .append("   <table>").append(System.lineSeparator());
 
         for (String[] row : rows) {
-            html.append("  <tr>").append(System.lineSeparator());
+            html.append("       <tr>").append(System.lineSeparator());
 
             for (String element : row) {
-                html.append("    <td>").append(System.lineSeparator());
-                html.append("      ").append(element).append(System.lineSeparator());
-                html.append("    </td>").append(System.lineSeparator());
+                html.append("           <td>").append(System.lineSeparator());
+                html.append("               ").append(element).append(System.lineSeparator());
+                html.append("           </td>").append(System.lineSeparator());
             }
 
-            html.append("  </tr>").append(System.lineSeparator());
+            html.append("       </tr>").append(System.lineSeparator());
         }
 
-        html.append("</table>");
+        html.append("   </table>").append(System.lineSeparator())
+                .append("</body>").append(System.lineSeparator())
+                .append("</html>");
 
         return html.toString();
     }
 
-    public void writeToFile(String fileName) throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(fileName);
-        writer.println(getHtml());
-        writer.close();
-        System.out.println(getHtml());
+    public void writeToFile(String filePath) throws FileNotFoundException {
+        try (
+                PrintWriter writer = new PrintWriter(filePath + File.separator + "output.txt");
+                BufferedWriter bufferedWriter = new BufferedWriter(writer)
+        ) {
+            bufferedWriter.write(getHtml());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-}
+} */
