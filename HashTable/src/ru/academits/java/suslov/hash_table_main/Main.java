@@ -1,5 +1,5 @@
-package ru.academits.java.suslov.hashTable_main;
-import ru.academits.java.suslov.hashTable.HashTable;
+package ru.academits.java.suslov.hash_table_main;
+import ru.academits.java.suslov.hash_table.HashTable;
 
 public class Main {
     public static void main(String[] args) {

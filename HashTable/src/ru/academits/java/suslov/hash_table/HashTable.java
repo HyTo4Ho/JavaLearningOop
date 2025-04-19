@@ -1,8 +1,8 @@
-package ru.academits.java.suslov.hashTable;
+package ru.academits.java.suslov.hash_table;
 
 import java.util.*;
 
-import ru.academits.java.suslov.arrayList.ArrayList;
+import ru.academits.java.suslov.array_list.ArrayList;
 
 public class HashTable<T> implements Collection<T> {
     private final ArrayList[] items;

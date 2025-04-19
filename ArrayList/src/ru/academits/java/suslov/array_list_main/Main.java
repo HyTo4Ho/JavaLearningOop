@@ -1,6 +1,6 @@
-package ru.academits.java.suslov.arrayList_main;
+package ru.academits.java.suslov.array_list_main;
 
-import ru.academits.java.suslov.arrayList.ArrayList;
+import ru.academits.java.suslov.array_list.ArrayList;
 
 public class Main {
     public static void main(String[] args) {

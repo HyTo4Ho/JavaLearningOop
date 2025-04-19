@@ -1,4 +1,4 @@
-package ru.academits.java.suslov.arrayList;
+package ru.academits.java.suslov.array_list;
 
 import java.util.*;
 
