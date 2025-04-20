@@ -2,16 +2,23 @@ package ru.academits.java.suslov.array_list;
 
 import java.util.*;
 
-public class ArrayList<T> implements List<T> {
-    private T[] items;
+public class ArrayList<E> implements List<E> {
+    private E[] items;
     private int count;
+    private int modCount;
 
+    @SuppressWarnings("unchecked")
     public ArrayList(int capacity) {
-        items = (T[]) new Object[capacity];
+        if (capacity < 0) {
+            throw new IllegalArgumentException(String.format("Размер должен быть положительным числом. Передано = %d", capacity));
+        }
+
+        items = (E[]) new Object[capacity];
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList() {
-        items = (T[]) new Object[1];
+        items = (E[]) new Object[8];
     }
 
     @Override
@@ -26,45 +33,61 @@ public class ArrayList<T> implements List<T> {
 
     public void ensureCapacity(int capacity) {
         if (capacity > items.length) {
-            items = Arrays.copyOf(items, capacity);
+            items = Arrays.copyOf(items, items.length * 2);
         }
     }
 
     @Override
-    public boolean add(T element) {
+    public boolean add(E element) {
         ensureCapacity(count + 1);
 
         items[count] = element;
         count++;
+        modCount++;
 
-        return false;
+        return true;
     }
 
     @Override
-    public void add(int index, T element) {
-        ensureCapacity(index);
+    public void add(int index, E element) {
+        if (index < 0 || index > count) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", count, index));
+        }
 
+        ensureCapacity(count + 1);
+
+        System.arraycopy(items, index, items, index + 1, count - index);
         items[index] = element;
 
-        count = Math.max(count, index);
+        count++;
+        modCount++;
     }
 
     @Override
     public boolean remove(Object o) {
         int index = indexOf(o);
 
+        if (index < 0) {
+            return false;
+        }
+
         remove(index);
 
-        return false;
+        return true;
     }
 
     @Override
-    public T remove(int index) {
-        T oldItem = items[index];
+    public E remove(int index) {
+        if (index < 0 || index > count - 1) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", count - 1, index));
+        }
+
+        E oldItem = items[index];
 
         System.arraycopy(items, index + 1, items, index, count - index - 1);
 
         count--;
+        modCount++;
 
         return oldItem;
     }
@@ -88,7 +111,7 @@ public class ArrayList<T> implements List<T> {
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < count; i++) {
-            if (items[i] == o) {
+            if (items[i].equals(o)) {
                 return i;
             }
         }
@@ -98,37 +121,39 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        int index = 0;
-        boolean found = false;
 
-        for (int i = 0; i < count; i++) {
-            if (items[i] == o) {
-                found = true;
-                index = i;
+        for (int i = count - 1; i >= 0; i--) {
+            if (items[i].equals(o)) {
+                return i;
             }
         }
 
-        return found ? index : -1;
+        return -1;
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<E> iterator() {
         return new Iterator<>() {
-            private int index = -1;
+            private int currentIndex = -1;
+            private final int freezeModCount = modCount;
 
             @Override
             public boolean hasNext() {
-                return index < count;
+                return currentIndex + 1 < count;
             }
 
             @Override
-            public T next() {
-                if (hasNext()) {
-                    index++;
-                    return items[index];
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Коллекция кончилась");
                 }
 
-                return null;
+                if (freezeModCount != modCount) {
+                    throw new ConcurrentModificationException("Коллекция не актуальна");
+                }
+
+                ++currentIndex;
+                return items[currentIndex];
             }
         };
     }
@@ -139,17 +164,27 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] a) {
-        return Arrays.copyOf(a, count);
+    @SuppressWarnings("unchecked")
+    public <T> T[] toArray(T[] a) {
+        if (a.length < count) {
+            a = (T[]) Arrays.copyOf(items, count);
+            return a;
+        }
+
+        return (T[]) Arrays.copyOf(items, count);
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c) {
+    public boolean addAll(Collection<? extends E> c) {
         return addAll(count, c);
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends T> c) {
+    public boolean addAll(int index, Collection<? extends E> c) {
+        if (index < 0 || index > count) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", count, index));
+        }
+
         if (c.isEmpty()) {
             return false;
         }
@@ -160,73 +195,100 @@ public class ArrayList<T> implements List<T> {
 
         int i = index;
 
-        for (T object : c) {
+        for (E object : c) {
             items[i] = object;
             i++;
         }
 
         count += c.size();
+        modCount++;
 
         return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        boolean success = false;
+        boolean hasSuccess = false;
 
         for (Object o : c) {
-            if (remove(o)) {
-                success = true;
+            while (indexOf(o) >= 0) {
+                remove(indexOf(o));
+                hasSuccess = true;
             }
         }
 
-        return success;
+        return hasSuccess;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        boolean success = false;
-
-        for (Object o : items) {
-            if (!c.contains(o)) {
-                remove(o);
-                success = true;
-            }
+        if (c.isEmpty()) {
+            this.clear();
+            return true;
         }
 
-        return success;
+        boolean hasSuccess = false;
+
+        for (int i = 0; i < count - 1; ) {
+            if (!c.contains(items[i])) {
+                remove(items[i]);
+                hasSuccess = true;
+                continue;
+            }
+
+            i++;
+        }
+
+        return hasSuccess;
     }
 
     @Override
     public void clear() {
+        if (count == 0) {
+            return;
+        }
+
         Arrays.fill(items, 0, count, null);
         count = 0;
+        modCount++;
     }
 
     @Override
-    public T get(int index) {
+    public E get(int index) {
+        if (index < 0 || index > count - 1) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", count - 1, index));
+        }
+
         return items[index];
     }
 
     @Override
-    public T set(int index, T element) {
+    public E set(int index, E element) {
+        if (index < 0 || index > count - 1) {
+            throw new IllegalArgumentException(String.format("Индекс должен быть между 0 и %d. Передано = %d", count - 1, index));
+        }
+
+        E oldValue = items[index];
+
         items[index] = element;
+        modCount++;
 
-        return element;
+        return oldValue;
     }
 
+
     @Override
-    public ListIterator<T> listIterator() {
+    public ListIterator<E> listIterator() {
         return null;
     }
 
     @Override
-    public ListIterator<T> listIterator(int index) {
+    public ListIterator<E> listIterator(int index) {
         return null;
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
+    public List<E> subList(int fromIndex, int toIndex) {
         return null;
     }
 
@@ -236,14 +298,43 @@ public class ArrayList<T> implements List<T> {
             return "{}";
         }
 
+        int maxIndex = count - 1;
         StringBuilder stringBuilder = new StringBuilder("{");
 
-        for (int i = 0; i < count - 1; i++) {
+        for (int i = 0; i < maxIndex; i++) {
             stringBuilder.append(items[i]).append(", ");
         }
 
-        stringBuilder.append(items[count - 1]).append('}');
+        stringBuilder.append(items[maxIndex]).append('}');
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ArrayList<?> arrayList = (ArrayList<?>) o;
+
+        return count == arrayList.count && Arrays.equals(items, arrayList.items);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(count);
+        result = 31 * result + Arrays.hashCode(items);
+        return result;
+    }
+
+    public void trimToSize() {
+        if (items.length > count) {
+            items = Arrays.copyOf(items, count);
+        }
     }
 }
